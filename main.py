@@ -22,13 +22,8 @@ db = mongo_db.db
 
 
 @app.route('/Agent/load')
-def solde():
-    # id=requests.args.get('id')
-    val = []
-    result = db.detected.find()
-    for i in result:
-        val.append(i)
-    return json.loads(dumps(val))
+def chargement():
+    pass
 
 
 if __name__ == '__main__':
