@@ -7,7 +7,6 @@ from werkzeug.utils import secure_filename
 from datetime import datetime
 from script import process_csv
 
-import json
 from flask import Flask, jsonify
 from flask_pymongo import PyMongo
 from flask_cors import CORS
@@ -48,10 +47,6 @@ def chargement():
         file_path = os.path.join(app.config['FOLDER'], file.filename)
         file.save(file_path)
     return 'ok'
-
-    # output_file = process_csv(save_location)
-    # return send_from_directory('output', output_file)
-    # return redirect(url_for('download'))
 
 
 if __name__ == '__main__':
