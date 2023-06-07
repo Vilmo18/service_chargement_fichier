@@ -25,24 +25,33 @@ ALLOWED_EXTENSIONS = set(['csv'])
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-@app.route('/Agent/load', methods=['GET', 'POST'])
+UPLOAD_FOLDER = 'upload'
+app.config['DEBUG'] = True
+app.config['FOLDER'] = UPLOAD_FOLDER
+
+
+@app.route('/Agent/load', methods=['POST'])
 def chargement():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and allowed_file(file.filename):
-            print(allowed_file(file.filename))
-            # filename = secure_filename(file.filename)
-            new_filename = f'{filename.split(".")[0]}_{str(datetime.now())}.csv'
-            save_location = os.path.join('input', new_filename)
-            file.save(save_location)
+    file = request.files['file']
+    """if file and allowed_file(file.filename):
+        print(allowed_file(file.filename))
+        filename = secure_filename(file.filename)
+        new_filename = f'{filename.split(".")[0]}_{str(datetime.now())}.csv'
+        save_location = os.path.join('input', new_filename)
+        file.save(save_location)"""
+    print("le nom")
+    print(file.filename)
+    if file.filename != '':
+        file_path = os.path.join(app.config['FOLDER'], file.filename)
+        file.save(file_path)
+    return 'ok'
 
-            output_file = process_csv(save_location)
-            # return send_from_directory('output', output_file)
-           # return redirect(url_for('download'))
+    # output_file = process_csv(save_location)
+    # return send_from_directory('output', output_file)
+    # return redirect(url_for('download'))
 
 
 if __name__ == '__main__':
